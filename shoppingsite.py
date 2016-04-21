@@ -70,39 +70,48 @@ def shopping_cart():
     #   - keep track of the total amt ordered for a melon-type
     #   - keep track of the total amt of the entire order
     # - hand to the template the total order cost and the list of melon types
-    melon_list = []
     total_cost = 0
-    for melon_id in session:
-        quantity = 0
+    melon_items = {}
+    for melon_id in session["cart"]:#iterate through the cart list
+        quantity = session["cart"].count(melon_id)
+        #current melon is melon object
         current_melon = melons.get_by_id(melon_id)
-        current_melon.price * quantity
-        melon_list.append([melons.get_by_id(melon_id), session[melon_id])
+        melon_total = quantity * current_melon.price 
+        total_cost += melon_total
 
-        
-
-
-
-    return render_template("cart.html")
+        melon_items[melon_id] = {"melon": current_melon.common_name, "qty":quantity, "price":current_melon.price, "mel_total": melon_total}
 
 
-@app.route("/add_to_cart/<int:id>")
-def add_to_cart(id):
+    return render_template("cart.html", total_cost = total_cost, melon_items=melon_items)
+
+
+@app.route("/add_to_cart/<int:melon_id>")
+def add_to_cart(melon_id):
     """Add a melon to cart and redirect to shopping cart page.
 
     When a melon is added to the cart, redirect browser to the shopping cart
     page and display a confirmation message: 'Successfully added to cart'.
     """
-    if id in session:
-        session[id] += 1
+    
+    if "cart" not in session:
+        session["cart"] = []  
+
+
+
+    if melon_id not in session["cart"]:
+        session["cart"].append(melon_id)
     else:
-        session[id] = 1
+        session["cart"].append(melon_id)
+
+    
     # TODO: Finish shopping cart functionality
 
     # The logic here should be something like:
     #
     # - add the id of the melon they bought to the cart in the session
 
-    return 'Successfully added to cart'
+    
+    return redirect("/cart")
 
 
 @app.route("/login", methods=["GET"])

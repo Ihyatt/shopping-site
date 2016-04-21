@@ -12,18 +12,32 @@
             <th>Total</th>
         </tr>
         </thead>
-        <tbody>
-        <tr>
-            {% for id in session %}
-            {{id}}
-            {% endfor %}
+        <tbody>   
+        {% for id in melon_items %}
+        <tr>  
+             
+            <td>
+            {{melon_items[id]["melon"]}}
+            </td>
 
-        </tr>
+            <td>
+            {{melon_items[id]["qty"]}}
+            </td>
+
+            <td>
+            {{melon_items[id]["price"]}}
+            </td>
+
+            <td>
+            {{melon_items[id]["mel_total"]}}
+            </td>
         
+        </tr>  
+        {% endfor %}     
         </tbody>
     </table>
 
-    <h3>Total: $27.00</h3>
+    <h3>{{total_cost}}</h3>
 
     <a href="/checkout" class="btn btn-large btn-primary">Check Out</a>
 
