@@ -75,7 +75,7 @@ def shopping_cart():
     for melon_id in session:
         quantity = 0
         current_melon = melons.get_by_id(melon_id)
-        current_melon.priceS * quantity
+        current_melon.price * quantity
         melon_list.append([melons.get_by_id(melon_id), session[melon_id])
 
         
